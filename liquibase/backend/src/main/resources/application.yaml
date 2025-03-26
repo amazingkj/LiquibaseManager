@@ -1,0 +1,47 @@
+server:
+  port: 18080
+  shutdown: graceful
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: liquibase
+  metrics:
+    enable:
+      liquibase: true
+  endpoint:
+    liquibase:
+      enabled: true
+
+spring:
+  application:
+    name: liquibase
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521/XEPDB1
+    driver-class-name: oracle.jdbc.OracleDriver
+    username: MYUSER
+    password: MYPASSWORD
+  jpa:
+    database-platform: org.hibernate.dialect.OracleDialect
+    open-in-view: false
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+    parameters:
+      db.type: oracle
+      project: db
+    drop-first: false
+    url: jdbc:oracle:thin:@localhost:1521/XEPDB1
+    user: MYUSER
+    password: MYPASSWORD
+
+logging:
+  level:
+#    org.springframework.jdbc: DEBUG
+#    org.hibernate.SQL: DEBUG
+    org.liquibase: DEBUG
